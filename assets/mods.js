@@ -20,7 +20,7 @@ window.WOTW_MODS = {
       ]
     }],
     patches: [],
-    youtubeVideoId: null,
+    youtubeVideoId: "Lv1O5m8T-Kk",
     screenshots: [],
     installation: [
       "Close the game and back up your saves and mod settings. Move any older copy of this mod outside Mods.",
