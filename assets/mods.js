@@ -1,5 +1,5 @@
 window.WOTW_MODS = {
-  siteName: "Framptonâ€™s WotW Mods",
+  siteName: "Frampton’s WotW Mods",
   creator: "@framptonbtw",
   mods: [{
     id: "2005-tripod",
