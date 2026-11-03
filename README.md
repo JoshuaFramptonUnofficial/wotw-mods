@@ -16,3 +16,5 @@ Both multiplayer players need identical mod files and the same game build.
 
 Original materials belong to their respective copyright owners. No ownership of
 those materials is claimed.
+
+DMCA or copyright enquiries: contact @framptonbtw on Discord.

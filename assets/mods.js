@@ -1,5 +1,5 @@
 window.WOTW_MODS = {
-  siteName: "Frampton’s WotW Mods",
+  siteName: "Framptonâ€™s WotW Mods",
   creator: "@framptonbtw",
   mods: [{
     id: "2005-tripod",
@@ -11,8 +11,8 @@ window.WOTW_MODS = {
       version: "1.0.1",
       gameBuild: "26369083",
       platform: "Windows x64",
-      publishedAt: null,
-      downloadUrl: null,
+      publishedAt: "2026-11-03",
+      downloadUrl: "https://github.com/JoshuaFramptonUnofficial/wotw-mods/releases/download/2005-tripod-v1.0.1/2005-Tripod-v1.0.1.zip",
       changes: [
         "Original 2005 tripod model, vfx and sounds.",
         "Regular and Uber presentation with native gameplay.",
