@@ -21,7 +21,11 @@ window.WOTW_MODS = {
     }],
     patches: [],
     youtubeVideoId: "Lv1O5m8T-Kk",
-    screenshots: [],
+    screenshots: [
+      { src: "./assets/wotw_screenshot1.webp", alt: "A tripod silhouetted against the bright sky, viewed from below." },
+      { src: "./assets/wotw_screenshot2.webp", alt: "Close-up view of a tripod against a blue sky." },
+      { src: "./assets/wotw_screenshot3.webp", alt: "Two tripods looming over a landscape at dusk." }
+    ],
     installation: [
       "Close the game and back up your saves and mod settings. Move any older copy of this mod outside Mods.",
       "Extract the ZIP into the main game directory. The included Mods folder goes beside War of the Worlds.exe.",

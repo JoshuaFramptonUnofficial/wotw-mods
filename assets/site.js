@@ -66,13 +66,15 @@
       const frame = element("iframe");frame.src = `https://www.youtube-nocookie.com/embed/${mod.youtubeVideoId}`;
       frame.title = `${mod.name} gameplay and installation`;frame.loading = "lazy";frame.allowFullscreen = true;
       frame.referrerPolicy = "strict-origin-when-cross-origin";frame.allow = "encrypted-media; picture-in-picture; fullscreen";video.append(frame);
+      const watchLink = element("a", "button", "Watch on YouTube");watchLink.href = `https://youtu.be/${mod.youtubeVideoId}`;
+      watchLink.target = "_blank";watchLink.rel = "noopener noreferrer";video.append(watchLink);
     } else {
       const placeholder = element("div", "video-placeholder");const play = element("span", "play", "▶");play.setAttribute("aria-hidden", "true");
       placeholder.append(play, element("p", "", "Installation video coming soon"));video.append(placeholder);
     }
     const gallery = document.getElementById("gallery");gallery.replaceChildren();
     (mod.screenshots || []).forEach(item => {
-      if (!item.src || !item.alt || !/^\.\/assets\/images\/[a-z0-9._-]+$/i.test(item.src)) return;
+      if (!item.src || !item.alt || !/^\.\/assets\/(?:images\/)?[a-z0-9._-]+$/i.test(item.src)) return;
       const figure = element("figure");const img = element("img");img.src = item.src;img.alt = item.alt;img.loading = "lazy";figure.append(img);
       if (item.caption) figure.append(element("figcaption", "", item.caption));gallery.append(figure);
     });
