@@ -13,3 +13,6 @@
 #screenshot-viewer::backdrop{background:rgba(0,0,0,.85)}
 #screenshot-viewer form{display:flex;justify-content:flex-end;margin-bottom:8px}
 #screenshot-viewer img{display:block;max-width:100%;max-height:calc(100dvh - 104px);object-fit:contain}
+
+#previous-release-list .button{background:#383838;border-color:#666;color:#eee}
+#previous-release-list .button:hover{background:#484848;border-color:#888}
