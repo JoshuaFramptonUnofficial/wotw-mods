@@ -8,6 +8,11 @@
   const category = document.getElementById("category");
   const clear = document.getElementById("clear-filters");
   const panel = document.getElementById("selected-mod");
+  const viewer = document.getElementById("screenshot-viewer");
+  const fullImage = viewer.querySelector("img");
+  viewer.addEventListener("click", event => {
+    if (event.target === viewer) viewer.close();
+  });
   let selected = data.mods[0].id;
   function element(tag, className, text) {
     const node = document.createElement(tag);
@@ -77,7 +82,17 @@
     const gallery = document.getElementById("gallery");gallery.replaceChildren();
     (mod.screenshots || []).forEach(item => {
       if (!item.src || !item.alt || !/^\.\/assets\/(?:images\/)?[a-z0-9._-]+$/i.test(item.src)) return;
-      const figure = element("figure");const img = element("img");img.src = item.src;img.alt = item.alt;img.loading = "lazy";figure.append(img);
+      const figure = element("figure");const img = element("img");img.src = item.src;img.alt = item.alt;img.loading = "lazy";
+      const expand = element("button", "screenshot-expand");
+      expand.type = "button";
+      expand.setAttribute("aria-label", "Expand screenshot: " + item.alt);
+      expand.append(img);
+      expand.addEventListener("click", () => {
+        fullImage.src = item.src;
+        fullImage.alt = item.alt;
+        viewer.showModal();
+      });
+      figure.append(expand);
       if (item.caption) figure.append(element("figcaption", "", item.caption));gallery.append(figure);
     });
     if (!gallery.children.length) for (let i = 0; i < 3; i++) {
