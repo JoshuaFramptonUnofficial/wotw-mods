@@ -5,7 +5,7 @@ window.WOTW_MODS = {
     id: "2005-tripod",
     name: "2005 Tripod",
     author: "@framptonbtw",
-    summary: "Original 2005 tripod model, vfx and sounds.",
+    summary: "Original 2005 tripod model, vfx and sounds. Credit: EldeBH and Flipswitch Games from a previous game build. Not officially endorsed by the game or Paramount.",
     categories: ["Tripods", "Visuals", "Audio"],
     releases: [{
       version: "1.0.1",
@@ -32,7 +32,8 @@ window.WOTW_MODS = {
       "Start the game and enable {name} in the main-menu Mods screen."
     ],
     compatibility: [
-      "Requires Windows x64 and game build 26369083. Multiplayer players need the same game build, exact mod files and matching selections."
+      "Requires Windows x64 and game build 26369083. Multiplayer players need the same game build, exact mod files and matching selections.",
+      "Model credit: EldeBH and Flipswitch Games. This version is from a previous game build and is not officially endorsed by the game or Paramount."
     ],
     knownIssues: [
       "Occasional client-side errors may occur when joining multiplayer. No visible gameplay problems were reported during testing.",
