@@ -42,17 +42,20 @@
     const hero = download(mod, latest, latest ? `Download ${latest.version}` : "Download coming soon");
     hero.id = "hero-download";document.getElementById("hero-download").replaceWith(hero);
     const list = document.getElementById("release-list");
-    const changes = document.getElementById("changelog");list.replaceChildren();changes.replaceChildren();
+    const previous = document.getElementById("previous-release-list");
+    const changes = document.getElementById("changelog");
+    list.replaceChildren();previous.replaceChildren();changes.replaceChildren();
     (mod.releases || []).forEach(release => {
       const row = element("article", "release");const copy = element("div");
       copy.append(element("h3", "", `Version ${release.version}`), element("p", "", `Game build ${release.gameBuild} · ${release.platform}`));
       row.append(copy);
       if (catalog.available(release)) row.append(download(mod, release));
       else row.append(element("span", "status", "Not yet published"));
-      list.append(row);
+      (release === latest ? list : previous).append(row);
       const entry = element("div");entry.append(element("h3", "", `Version ${release.version}`));
       (release.changes || []).forEach(text => entry.append(element("p", "", text)));changes.append(entry);
     });
+    document.getElementById("previous-releases").hidden = !previous.children.length;
     if (!list.children.length) list.append(element("p", "small", "Downloads will appear here when published."));
     const patches = (mod.patches || []).filter(patch => catalog.available(patch));
     document.getElementById("patch-note").hidden = patches.length > 0;

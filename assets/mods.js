@@ -8,6 +8,20 @@ window.WOTW_MODS = {
     summary: "Original 2005 tripod model, vfx and sounds. Mod by @framptonbtw. Model credit: EldeBH and Flipswitch Games from a previous game build.",
     categories: ["Tripods", "Visuals", "Audio"],
     releases: [{
+      version: "1.1.0",
+      gameBuild: "26369083",
+      platform: "Windows x64",
+      publishedAt: "2026-11-04",
+      downloadUrl: "https://github.com/JoshuaFramptonUnofficial/wotw-mods/releases/download/2005-tripod-v1.1.0/2005-Tripod-v1.1.0.zip",
+      changes: [
+        "Restored the original 2005 standard head and expanded Uberpod head. Fixed duplicate Uber head rendering.",
+        "Aligned the standard Tripod’s three lamps and the Uberpod’s five lamps with their beams. Corrected headlight and spotlight brightness and restored the head side lighting.",
+        "Restored the original 2005 death-ray sounds and beam material texture. Death-ray bursts now follow the duration of the 2005 recordings.",
+        "Gave the Uberpod a distinct continuous engine loop based on the 2005 recording and restored the original horn distance falloff.",
+        "Removed the inherited rear exhaust trail from both variants.",
+        "Restored the original left cage tilt and corrected its resting alignment."
+      ]
+    }, {
       version: "1.0.1",
       gameBuild: "26369083",
       platform: "Windows x64",

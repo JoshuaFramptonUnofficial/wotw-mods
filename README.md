@@ -4,7 +4,7 @@ War of the Worlds: Red Horizon mods by **@framptonbtw**.
 
 ## 2005 Tripod
 
-Original 2005 tripod model, vfx and sounds. Version **1.0.1** supports Windows x64
+Original 2005 tripod model, vfx and sounds. Version **1.1.0** supports Windows x64
 and game build **26369083**. The game’s stock probe is retained.
 
 Download the mod ZIP from Releases. Close the game, back up your saves and mod
