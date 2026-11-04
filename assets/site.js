@@ -58,7 +58,6 @@
     document.getElementById("previous-releases").hidden = !previous.children.length;
     if (!list.children.length) list.append(element("p", "small", "Downloads will appear here when published."));
     const patches = (mod.patches || []).filter(patch => catalog.available(patch));
-    document.getElementById("patch-note").hidden = patches.length > 0;
     patches.forEach(patch => {
       const row = element("article", "release");const copy = element("div");
       copy.append(element("h3", "", `Patch ${patch.version}`), element("p", "", `Requires version ${patch.requiresVersion}`));

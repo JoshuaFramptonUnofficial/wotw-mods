@@ -8,6 +8,15 @@ window.WOTW_MODS = {
     summary: "Original 2005 tripod model, vfx and sounds. Mod by @framptonbtw. Model credit: EldeBH and Flipswitch Games from a previous game build.",
     categories: ["Tripods", "Visuals", "Audio"],
     releases: [{
+      version: "1.1.1",
+      gameBuild: "26369083",
+      platform: "Windows x64",
+      publishedAt: "2026-11-04",
+      downloadUrl: "https://github.com/JoshuaFramptonUnofficial/wotw-mods/releases/download/2005-tripod-v1.1.1/2005-Tripod-v1.1.1.zip",
+      changes: [
+        "Fixed floating and misaligned Uberpod beams. The five spotlights align with their lamps in AI and pilot control, and standard Tripod beams stay hidden in Uber mode."
+      ]
+    }, {
       version: "1.1.0",
       gameBuild: "26369083",
       platform: "Windows x64",
