@@ -1,0 +1,44 @@
+name: Hide 2.0.0
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  TAG: project-05-revive-v2.0.0
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  hide:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Switch the page off
+        run: python3 .github/scripts/set_flag.py false
+
+      - name: Put the release back to draft
+        run: gh release edit "$TAG" --draft=true
+
+      - name: Push the page change
+        run: |
+          git config user.name "$(git log -1 --format=%an origin/main)"
+          git config user.email "$(git log -1 --format=%ae origin/main)"
+          git add assets/mods.js
+          git diff --cached --quiet && { echo "Nothing to change"; exit 0; }
+          git commit -m "hide 2.0.0"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      - name: Ask Pages to rebuild
+        continue-on-error: true
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"

@@ -1,0 +1,114 @@
+name: Release 2.0.0
+
+on:
+  schedule:
+    # 22:00 UTC on 20 November (5 pm US Eastern). It checks the date, so it does nothing in later years.
+    - cron: "0 22 20 11 *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry-run only checks everything, release publishes"
+        type: choice
+        options: [dry-run, release]
+        default: dry-run
+      youtube_id:
+        description: "YouTube ID or link (optional, otherwise assets/revive/video.txt)"
+        required: false
+        default: ""
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pages: write
+
+env:
+  TAG: project-05-revive-v2.0.0
+  ASSET: Project-05-Revive-v2.0.0.wotwmod
+  SIZE: "822344593"
+  RELEASE_DATE: "2026-11-20"
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Check whether this run should do anything
+        id: guard
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$(date -u +%F)" != "$RELEASE_DATE" ]; then
+            echo "Not the release day, skipping."; echo "skip=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          if grep -q "const RELEASE_LIVE = true;" assets/mods.js; then
+            echo "Already live, skipping."; echo "skip=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.mode }}" = "dry-run" ]; then
+            echo "dry=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check the draft release and its file
+        if: steps.guard.outputs.skip != 'true'
+        run: |
+          gh release view "$TAG" --json isDraft,assets > release.json
+          cat release.json
+          jq -e '.isDraft == true' release.json > /dev/null || { echo "::error::$TAG is not a draft"; exit 1; }
+          jq -e --arg n "$ASSET" --argjson s "$SIZE" '.assets[] | select(.name==$n and .size==$s and .state=="uploaded")' release.json > /dev/null \
+            || { echo "::error::$ASSET is missing from the draft or has the wrong size"; exit 1; }
+
+      - name: Build the media list and switch the page on
+        if: steps.guard.outputs.skip != 'true'
+        run: |
+          if [ -n "${{ inputs.youtube_id }}" ]; then printf '%s\n' "${{ inputs.youtube_id }}" > assets/revive/video.txt; fi
+          python3 .github/scripts/build_media.py
+          python3 .github/scripts/set_flag.py true
+          git status --short
+
+      - name: Stop here for a dry run
+        if: steps.guard.outputs.skip != 'true' && steps.guard.outputs.dry == 'true'
+        run: echo "Dry run finished. Nothing was published or pushed."
+
+      - name: Publish the release
+        if: steps.guard.outputs.skip != 'true' && steps.guard.outputs.dry != 'true'
+        run: gh release edit "$TAG" --draft=false
+
+      - name: Check the public download
+        if: steps.guard.outputs.skip != 'true' && steps.guard.outputs.dry != 'true'
+        run: |
+          URL="https://github.com/${{ github.repository }}/releases/download/$TAG/$ASSET"
+          if curl -fsSL -o dl.bin "$URL" && [ "$(sha256sum dl.bin | cut -d' ' -f1)" = "$(cut -d' ' -f1 release/SHA256)" ]; then
+            echo "Download OK"
+          else
+            echo "::error::Download check failed, putting the release back to draft"
+            gh release edit "$TAG" --draft=true
+            exit 1
+          fi
+
+      - name: Push the page change
+        if: steps.guard.outputs.skip != 'true' && steps.guard.outputs.dry != 'true'
+        run: |
+          git config user.name "$(git log -1 --format=%an origin/main)"
+          git config user.email "$(git log -1 --format=%ae origin/main)"
+          git add assets/media.js assets/mods.js
+          git commit -m "publish 2.0.0"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      - name: Ask Pages to rebuild and wait for it
+        if: steps.guard.outputs.skip != 'true' && steps.guard.outputs.dry != 'true'
+        continue-on-error: true
+        run: |
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
+          for i in $(seq 1 20); do
+            if curl -fsSL "https://joshuaframptonunofficial.github.io/wotw-mods/assets/mods.js?$RANDOM" | grep -q "const RELEASE_LIVE = true;"; then
+              echo "Site is live"; exit 0
+            fi
+            sleep 30
+          done
+          echo "::warning::The site did not show the release after 10 minutes"
+          exit 1

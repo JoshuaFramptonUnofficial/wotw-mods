@@ -81,7 +81,7 @@
     }
     const gallery = document.getElementById("gallery");gallery.replaceChildren();
     (mod.screenshots || []).forEach(item => {
-      if (!item.src || !item.alt || !/^\.\/assets\/(?:images\/)?[a-z0-9._-]+$/i.test(item.src)) return;
+      if (!item.src || !item.alt || !/^\.\/assets\/(?:(?:images|revive)\/)?[a-z0-9._-]+$/i.test(item.src)) return;
       const figure = element("figure");const img = element("img");img.src = item.src;img.alt = item.alt;img.loading = "lazy";
       const expand = element("button", "screenshot-expand");
       expand.type = "button";

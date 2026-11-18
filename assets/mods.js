@@ -1,7 +1,8 @@
-window.WOTW_MODS = {
-  siteName: "Frampton’s WotW Mods",
-  creator: "@framptonbtw",
-  mods: [{
+(() => {
+  // Flip to true to show the 2.0.0 release. The release workflow does this for you.
+  const RELEASE_LIVE = false;
+
+  const previous = {
     id: "2005-tripod",
     name: "2005 Tripod",
     author: "@framptonbtw",
@@ -67,5 +68,62 @@ window.WOTW_MODS = {
       "A save requiring an older mod version may need that version reinstalled. Back up your saves and keep your previous mod package before updating.",
       "To remove the mod, disable it while disconnected, quit, then move its folder outside Mods. Saves requiring the mod will not load without it. Fresh worlds use the game's default Tripods."
     ]
-  }]
-};
+  };
+
+  const next = {
+    name: "Project 05 Revive",
+    summary: "A mod for bringing back the original 2005 tripods from previous versions, completely overhauled to include all the features requested and more! Mod by @framptonbtw. Model credit: EldeBH and Flipswitch Games from a previous game build.",
+    release: {
+      version: "2.0.0",
+      gameBuild: "26748874",
+      platform: "Windows x64",
+      publishedAt: "2026-11-20",
+      downloadUrl: "https://github.com/JoshuaFramptonUnofficial/wotw-mods/releases/download/project-05-revive-v2.0.0/Project-05-Revive-v2.0.0.wotwmod",
+      changes: [
+        "Lightning-storm arrival and ground-rise sequence.",
+        "Original drain needle, cages and tentacles.",
+        "Original 2005 aliens with hatch emergence and crawling.",
+        "2005 probe visuals.",
+        "Original blue heat rays.",
+        "2005 horn options (H)."
+      ]
+    },
+    // Filled from assets/media.js (built from assets/revive). The previous video and screenshots are used while it's empty.
+    youtubeVideoId: (window.WOTW_MEDIA || {}).youtubeVideoId || null,
+    screenshots: (window.WOTW_MEDIA || {}).screenshots || [],
+    installation: [
+      "Close the game and back up your saves. Move any older copy of this mod out of the Mods folder.",
+      "Put the downloaded .wotwmod file in the Mods folder next to the game's .exe. Do not unzip it.",
+      "Start the game and enable {name} in the main-menu Mods screen."
+    ],
+    compatibility: [
+      "Requires Windows x64 and game build 26748874 or newer. Some future builds could break the mod, and support isn't guaranteed. Multiplayer players need the same game build and the same mod file.",
+      "Model credit: EldeBH and Flipswitch Games from a previous game build.",
+      "This mod is not officially endorsed by the game or Paramount."
+    ],
+    knownIssues: [
+      "Saves from older versions of this mod are not guaranteed to load. Start a new save.",
+      "The game can freeze or lag near tripods on some PCs, with or without this mod."
+    ],
+    saveNotes: previous.saveNotes
+  };
+
+  const mod = RELEASE_LIVE ? {
+    ...previous,
+    name: next.name,
+    summary: next.summary,
+    releases: [next.release, ...previous.releases],
+    youtubeVideoId: next.youtubeVideoId || previous.youtubeVideoId,
+    screenshots: next.screenshots.length ? next.screenshots : previous.screenshots,
+    installation: next.installation,
+    compatibility: next.compatibility,
+    knownIssues: next.knownIssues,
+    saveNotes: next.saveNotes
+  } : previous;
+
+  window.WOTW_MODS = {
+    siteName: "Frampton’s WotW Mods",
+    creator: "@framptonbtw",
+    mods: [mod]
+  };
+})();
