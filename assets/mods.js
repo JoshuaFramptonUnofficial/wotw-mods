@@ -1,6 +1,6 @@
 (() => {
   // Flip to true to show the 2.0.0 release. The release workflow does this for you.
-  const RELEASE_LIVE = false;
+  const RELEASE_LIVE = true;
 
   const previous = {
     id: "2005-tripod",
